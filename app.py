@@ -9,6 +9,7 @@ from flask_cors import CORS
 import openai
 import sqlite3
 import time
+import os
 import threading
 from twilio.rest import Client
 
@@ -16,10 +17,10 @@ app = Flask(__name__)
 CORS(app)
 
 # STEP 1: Set Your API Keys
-openai.api_key = 'your-openai-api-key'
-twilio_sid = 'your-twilio-sid'
-twilio_token = 'your-twilio-auth-token'
-twilio_phone = 'your-twilio-phone-number'
+openai.api_key = os.getenv('OPENAI_API_KEY')
+twilio_sid = os.getenv('twilio_sid')
+twilio_token = os.getenv('twilio_token')
+twilio_phone = os.getenv('twilio_phone')
 client = Client(twilio_sid, twilio_token)
 
 # STEP 2: Initialize Local SQLite Database
