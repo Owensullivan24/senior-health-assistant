@@ -5,6 +5,7 @@
 # 3. Run this file with Python to launch the local server
 
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import openai
 import sqlite3
 import time
@@ -12,6 +13,7 @@ import threading
 from twilio.rest import Client
 
 app = Flask(__name__)
+CORS(app)
 
 # STEP 1: Set Your API Keys
 openai.api_key = 'your-openai-api-key'
