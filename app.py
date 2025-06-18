@@ -6,6 +6,7 @@
 # 4. Use POST requests to /create_reminder and /ask endpoints to interact.
 
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import openai
 import sqlite3
 import time
@@ -14,6 +15,7 @@ from twilio.rest import Client
 import os
 
 app = Flask(__name__)
+CORS(app)
 
 # STEP 1: Set Your API Keys from Environment Variables
 openai.api_key = os.environ.get('OPENAI_API_KEY')
