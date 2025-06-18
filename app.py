@@ -1,4 +1,4 @@
-# AI Health Assistant for Seniors (Backend + Deployment Ready)
+# AI Health Assistant for Seniors (Updated for OpenAI SDK v1.x)
 # Deployment Instructions (Render or Replit)
 # 1. Create a GitHub repository and add this file.
 # 2. Add a requirements.txt file with required packages.
@@ -6,7 +6,7 @@
 # 4. Use POST requests to /create_reminder and /ask endpoints to interact.
 
 from flask import Flask, request, jsonify
-from flask_cors import CORS  # ✅ Added for browser access
+from flask_cors import CORS
 import openai
 import sqlite3
 import time
@@ -15,7 +15,7 @@ from twilio.rest import Client
 import os
 
 app = Flask(__name__)
-CORS(app)  # ✅ Enable CORS for frontend to talk to backend
+CORS(app)
 
 # STEP 1: Set Your API Keys from Environment Variables
 openai.api_key = os.environ.get('OPENAI_API_KEY')
@@ -86,18 +86,18 @@ def ask():
         if not prompt:
             return jsonify({'error': 'Prompt is required'}), 400
 
-        response = openai.ChatCompletion.create(
+        client = openai.OpenAI()
+        response = client.chat.completions.create(
             model="gpt-4",
             messages=[
                 {"role": "system", "content": "You are a helpful health assistant for seniors."},
                 {"role": "user", "content": prompt}
             ]
         )
-        return jsonify({'response': response['choices'][0]['message']['content']})
+        return jsonify({'response': response.choices[0].message.content})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
 # STEP 7: Start the Flask Server
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
-
