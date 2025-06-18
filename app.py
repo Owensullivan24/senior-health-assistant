@@ -73,7 +73,7 @@ def reminder_checker():
 threading.Thread(target=reminder_checker, daemon=True).start()
 
 # STEP 6: Chatbot Endpoint to Answer Health Questions
-@app.route('/ask', methods=['POST'])
+@app.route('/send_now', methods=['GET', 'POST'])
 def ask():
     data = request.json
     prompt = data['prompt']
